@@ -1,15 +1,15 @@
-const express = require("express");
-const app = express();
-const users = require("./routes/user.js");
-const posts = require("./routes/post.js");
+// const express = require("express");
+// const app = express();
+// const users = require("./routes/user.js");
+// const posts = require("./routes/post.js");
 
-app.get("/" , (req , res)=>{
-    res.send("Hi , I am root!");
-});
+// app.get("/" , (req , res)=>{
+//     res.send("Hi , I am root!");
+// });
 
-app.use("/users", users);
-app.use("/posts",posts);
+// app.use("/users", users);
+// app.use("/posts",posts);
 
-app.listen(3300, ()=>{
-    console.log("server is listening to 3300");
-});
+// app.listen(3300, ()=>{
+//     console.log("server is listening to 3300");
+// });
