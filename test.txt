@@ -1,0 +1,13 @@
+app.get("/testListing", async (req,res)=>{
+    let sampleListing = new Listing({
+        title:"My new villa",
+        description : "hey ! you came to the right path",
+        price : 12000,
+        location : "udaipur",
+        country: "India",
+    });
+  await sampleListing.save();
+  console.log("sample inserted");
+  res.send("successful");
+
+});
