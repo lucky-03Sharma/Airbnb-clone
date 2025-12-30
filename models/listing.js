@@ -3,7 +3,7 @@ const { ref } = require("joi");
 const Schema = mongoose.Schema;
 const Review = require("./review.js");
 
-const listingSchema = new Schema({
+const listingSchema = new mongoose.Schema({
     title:{
         type:String,
         required: true,
@@ -24,6 +24,10 @@ const listingSchema = new Schema({
     price: Number,
     location: String,
     country: String,
+     owner: {
+      type: Schema.Types.ObjectId,
+      ref : "User" ,
+    },
     reviews:[{
         type: Schema.Types.ObjectId,
         ref: "Review",
@@ -31,11 +35,11 @@ const listingSchema = new Schema({
     ],
 });
 
-listingSchema.post("findOneAndDelete", async(listing)=>{
-    if(listing){
-await Review.deleteMany({_id: {$in: listing.reviews}})
-}
-    });
+listingSchema.post("findOneAndDelete", async (listing) => {
+  if (listing) {
+    await Review.deleteMany({ _id: { $in: listing.reviews } });
+  }
+});
 
-const Listing= mongoose.model("Listing",listingSchema);
-module.exports=Listing;
+const Listing = mongoose.model("Listing", listingSchema);
+module.exports = Listing;

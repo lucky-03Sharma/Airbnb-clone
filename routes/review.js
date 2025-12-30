@@ -5,7 +5,8 @@ const ExpressError=require("../utils/ExpressError.js");
 const {reviewJoiSchema }= require("../schema.js");
 const Review= require("../models/review.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn , isReviewAuthor, validateListing } = require("../middleware.js");
+const reviewController = require("../controllers/reviews.js");
 
 
 
@@ -22,25 +23,20 @@ const validateReview = (req,res, next)=>{
 
   //post review route
   router.post("/",
-    isLoggedIn, validateReview , wrapAsync(async(req,res)=>{
-    let listing = await Listing.findById(req.params.id);
-    let newReview = new Review(req.body.review);
-    listing.reviews.push(newReview);
-    await newReview.save();
-    await listing.save();
-     req.flash("success","new review created successfully");
-    res.redirect(`/listings/${listing._id}`);
-  }) ) ;
+    isLoggedIn, validateReview , wrapAsync(reviewController.createReview));
 
 
   //delete review route
 router.delete("/:reviewId",
-  isLoggedIn, wrapAsync(async(req,res)=>{
-let{id , reviewId}= req.params;
-await Listing.findByIdAndUpdate(id ,{$pull:{reviews: reviewId}})
-await Review.findByIdAndDelete(reviewId);
-        req.flash("success","review deleted successfully");
-res.redirect(`/listings/${id}`);
-}));
+  isLoggedIn, isReviewAuthor, wrapAsync(reviewController.destroyReview));
 
+module.exports.isReviewAuthor = async (req, res, next) => {
+  let { id, reviewID } = req.params;
+  let review = await Review.findById(reviewID);
+  if (!review.author.equals(res.locals.currUser._id)) {
+    req.flash("error", "You did not create this review");
+    return res.redirect(`/listings/${id}`);
+  }
+  next();
+};
    module.exports = router;
