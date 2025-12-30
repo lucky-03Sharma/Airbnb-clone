@@ -48,7 +48,7 @@ const sessionOptions = {
 
 //home route
 app.get("/", (req,res)=>{
-res.send("The port is listening");
+res.redirect("/listings");
 });
 
 

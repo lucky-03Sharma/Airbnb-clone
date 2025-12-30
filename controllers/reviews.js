@@ -1,6 +1,11 @@
 const mongoose = require("mongoose"); 
 const Listing = require("../models/listing");
 const Review = require("../models/review");
+
+module.exports.renderSignup = (req,res)=>{
+    res.render("users/signup.ejs");
+};
+
 module.exports.createReview = async(req,res)=>{
     let listing = await Listing.findById(req.params.id);
     let newReview = new Review(req.body.review);
