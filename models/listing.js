@@ -11,21 +11,14 @@ const listingSchema = new mongoose.Schema({
     description:String,
     
     image:{
-      filename:String,
-      url: {
-        type: String,
-        default:"https://www.apnacollege.in/path-player?courseid=sigma-6&unit=67d8321fa6cbc3c7ea010866Unit",
-        set:(v)=>
-             v=== ""
-        ?"https://www.apnacollege.in/path-player?courseid=sigma-6&unit=67d8321fa6cbc3c7ea010866Unit"
-        :v,
-    },
+     url: String,
+     filename : String,
     },
     price: Number,
     location: String,
     country: String,
      owner: {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref : "User" ,
     },
     reviews:[{
