@@ -60,8 +60,6 @@
   </div>
 <% } %>
 <div class="col-8 offset-3">
-  <hr>
-
   <% if (currUser) { %>
     <h4>Leave a Review</h4>
 
@@ -85,7 +83,7 @@
       </div> -->
   <div class="mb-3 mt-3"></div>
   <fieldset class="starability-slot">
-  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="0" checked aria-label="No rating." />
+  <input type="radio" id="no-rate" class="input-no-rate" name="review[rating]" value="1" checked aria-label="No rating." />
   <input type="radio" id="first-rate1" name="review[rating]" value="1" />
   <label for="first-rate1" title="Terrible">1 star</label>
   <input type="radio" id="first-rate2" name="review[rating]" value="2" />
@@ -121,9 +119,9 @@
   <% } %>
 
   <hr>
-  <h4>All Reviews</h4>
-
+  <% if(listing.reviews.length>0){ %>
   <div class="row">
+    <h3>All Reviews</h3>
     <% for (review of listing.reviews) { %>
       <div class="card col-5 ms-3 mb-3">
         <div class="card-body">
@@ -144,4 +142,22 @@
       </div>
     <% } %>
   </div>
+  <% } %>
+  </div> 
+  <br> 
+  <div class ="col-6 offset-3 mb-3">
+   <h3>Where you'll be </h3>
+   <div id="map"></div>
 </div>
+</div>
+<script>
+  let mapToken = "<%= process.env.MAP_TOKEN %>";
+  console.log(mapToken);
+  mapboxgl.accessToken = mapToken ;
+    mapboxgl.accessToken = 'pk.eyJ1IjoibHVja3lzMTIzIiwiYSI6ImNtanYxanpzNzR4ZHkzZ3F4bjFwaTdpOGMifQ.Novw1bK76XuGUJPUyiJnNw';
+    const map = new mapboxgl.Map({
+        container: 'map', // container ID
+        center: [77.2090, 28.6139], // starting position [lng, lat]. Note that lat must be set between -90 and 90
+        zoom: 9 // starting zoom
+    });
+</script>
