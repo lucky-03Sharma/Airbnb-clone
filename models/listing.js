@@ -1,15 +1,13 @@
 const mongoose = require("mongoose");
-const { ref } = require("joi");
-const Schema = mongoose.Schema;
 const Review = require("./review.js");
+const Schema = mongoose.Schema;
 
-const listingSchema = new mongoose.Schema({
+const listingSchema = new Schema({
   title: {
     type: String,
-    required: true,
+    required: true, // ✅ corrected from `require` to `required`
   },
   description: String,
-
   image: {
     url: String,
     filename: String,
@@ -17,15 +15,27 @@ const listingSchema = new mongoose.Schema({
   price: Number,
   location: String,
   country: String,
+  reviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Review",
+    },
+  ],
   owner: {
     type: Schema.Types.ObjectId,
     ref: "User",
   },
-  reviews: [{
-    type: Schema.Types.ObjectId,
-    ref: "Review",
+  geometry: {
+    type: {
+      type: String,
+      enum: ["Point"],
+      required: true,
+    },
+    coordinates: {
+      type: [Number],
+      required: true,
+    },
   },
-  ],
 });
 
 listingSchema.post("findOneAndDelete", async (listing) => {

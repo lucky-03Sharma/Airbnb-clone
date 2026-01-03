@@ -120,5 +120,7 @@ listing-card {
 
 /* MAP */
 #map {
-    height: 400px;
-      width: 80vh; }
+  height: 300px;
+  width: 100%;
+  border-radius: 10px;
+}
